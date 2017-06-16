@@ -4,7 +4,7 @@ library(dplyr)
 library(stringdist)
 library(tm)
 
-setwd('/Users/jundiliu/Desktop/DMDII')
+#setwd('/Users/jundiliu/Desktop/DMDII')
 df.data <- read.csv('SalesOrdersLines-05222017.csv', header = TRUE, 
                     colClasses = c(rep("factor",4),"character","numeric","factor","character","factor","factor","character","numeric","factor","numeric"))
 df.data$required_date <- as.Date(df.data$required_date, format="%d-%b-%y")
@@ -17,7 +17,18 @@ df.data$item_description <- gsub('\\S+([0-9])\\S+','',df.data$item_description)
 df.data$item_description <- sub("rev.*","",df.data$item_description)
 df.data$item_description <- removeNumbers(df.data$item_description)
 df.data$item_description <- removePunctuation(df.data$item_description)
+
+df.data$drawing_description <- removePunctuation(df.data$drawing_description, preserve_intra_word_dashes = TRUE)
+df.data$drawing_description <- gsub('\\S+([0-9])\\S+','',df.data$drawing_description)
+df.data$drawing_description <- sub("rev.*","",df.data$drawing_description)
+df.data$drawing_description <- removeNumbers(df.data$drawing_description)
+df.data$drawing_description <- removePunctuation(df.data$drawing_description)
+
 df.data$norm_descr <- ifelse(df.data$drawing_description == "",df.data$item_description, df.data$drawing_description)
+df.data$norm_descr <- trimws(df.data$norm_descr)
+
+df.data <- df.data %>% filter(!norm_descr == "")
+df.data$norm_descr <- sub("^(\\S*\\s+\\S+).*", "\\1",df.data$norm_descr)
 
 # Notification menu
 notifications <- dropdownMenu(type = "notifications",
@@ -48,7 +59,8 @@ sidebar <- dashboardSidebar(
 
 # Body
 body <- dashboardBody(
-  
+  box(title = "Histogram", status = "primary"),
+  box(title="Inputs")
 )
 
 ui <- dashboardPage(header, sidebar, body, skin = "purple")
