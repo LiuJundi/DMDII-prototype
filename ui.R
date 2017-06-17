@@ -42,7 +42,7 @@ sidebar <- dashboardSidebar(
   selectInput(inputId = "customer_priority", label = "Customer Priority", choices = c("First", "Second", "Third"), selected = NULL, multiple = FALSE,
               selectize = TRUE, width = NULL, size = NULL),
   fluidRow(
-    column(5,actionButton("reset", label = "Reset")),
+    column(5,actionButton("reset", label = "Reset"),offset=1),
     column(5,submitButton("Predict"))
   )
 )
