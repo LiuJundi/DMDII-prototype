@@ -8,6 +8,7 @@ library(googleVis)
 
 #setwd('/Users/jundiliu/Desktop/DMDII')
 setwd('D:\\Program File\\Git\\git_projects\\RA\\VizProto\\DMDII-prototype')
+
 df.data <- read.csv('SalesOrdersLines-05222017.csv', header = TRUE, 
                     colClasses = c(rep("factor",4),"character","numeric","factor","character","factor","factor","character","numeric","factor","numeric","character"))
 df.data$required_date <- as.Date(df.data$required_date, format="%d-%b-%y")
@@ -35,8 +36,17 @@ sidebar <- dashboardSidebar(
   dateInput(inputId = "order_date", label = "Order Date", 
                  min = NULL,max = NULL, format = "mm-dd-yyyy", startview = "month", 
                  weekstart = 0, language = "en", width = NULL),
+  numericInput("quantity_ordered", 
+               label = "Quantity Ordered:", 
+               value = 10),
+  sliderInput(inputId = "CI", "Confidence Interval (%):", 1, 100, 80),
+  selectizeInput(inputId = "part_id", label = "Part ID:", choices = unique(df.data$norm_descr), selected = FALSE, multiple = TRUE),
   selectInput(inputId = "customer_priority", label = "Customer Priority", choices = c("First", "Second", "Third"), selected = NULL, multiple = FALSE,
-              selectize = TRUE, width = NULL, size = NULL)
+              selectize = TRUE, width = NULL, size = NULL),
+  fluidRow(
+    column(5,actionButton("reset", label = "Reset"),offset=1),
+    column(5,submitButton("Predict"))
+  )
 )
 
 # Body
@@ -47,11 +57,9 @@ body <- dashboardBody(
     valueBoxOutput("dateEstUpper")
   ),
   fluidRow(
-    column(width=9,
+    column(width=12,
            box(width=NULL,title = "Order Calendar", status = "primary", htmlOutput("calendar"))
-           )
-    
-  )
+           ))
 )
 
 dashboardPage(header, sidebar, body, skin = "purple")

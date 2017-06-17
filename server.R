@@ -7,8 +7,9 @@ library(tm)
 library(googleVis)
 
 setwd('D:\\Program File\\Git\\git_projects\\RA\\VizProto\\DMDII-prototype')
+#setwd('/Users/jundiliu/Desktop/DMDII-prototype')
 df.cal <- read.csv('cal.csv', header=TRUE, colClasses = c('character','integer'))
-df.cal$Dates <- as.Date(df.cal$Dates)
+df.cal$Dates <- as.Date(df.cal$Dates, format="%d-%b-%y")
 
 
 server <- function(input, output, session) {
