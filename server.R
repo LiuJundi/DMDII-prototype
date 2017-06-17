@@ -23,4 +23,24 @@ server <- function(input, output, session) {
                                focusedCellColor: {stroke:'red'}}"))
     return(gcal)
   })
+  
+  output$dateEst <- renderValueBox({
+    valueBox(
+      paste0(input$order_date), "Estimated Delivery Date"
+    )
+  })
+  
+  output$dateEstLower <- renderValueBox({
+    valueBox(
+      paste0(input$order_date), 
+      "Estimated Delivery Date CI Lower Bound"
+    )
+  })
+  
+  output$dateEstUpper <- renderValueBox({
+    valueBox(
+      paste0(input$order_date), 
+      "Estimated Delivery Date CI Upper Bound"
+    )
+  })
 }

@@ -9,7 +9,7 @@ library(googleVis)
 #setwd('/Users/jundiliu/Desktop/DMDII')
 setwd('D:\\Program File\\Git\\git_projects\\RA\\VizProto\\DMDII-prototype')
 df.data <- read.csv('SalesOrdersLines-05222017.csv', header = TRUE, 
-                    colClasses = c(rep("factor",4),"character","numeric","factor","character","factor","factor","character","numeric","factor","numeric"))
+                    colClasses = c(rep("factor",4),"character","numeric","factor","character","factor","factor","character","numeric","factor","numeric","character"))
 df.data$required_date <- as.Date(df.data$required_date, format="%d-%b-%y")
 
 # Notification menu
@@ -31,13 +31,21 @@ sidebar <- dashboardSidebar(
                       label = "Search...")
   ),
   sliderInput(inputId = "quantity_ordered", "Quantity Ordered:", 1, 100, 50),
-  selectizeInput(inputId = "part_id", label = "Part ID:", choices = unique(df.data$norm_descr), selected = FALSE, multiple = TRUE),
+  selectizeInput(inputId = "part_id", label = "Part ID:", choices = unique(df.data$item_id), selected = FALSE, multiple = FALSE),
+  dateInput(inputId = "order_date", label = "Order Date", 
+                 min = NULL,max = NULL, format = "mm-dd-yyyy", startview = "month", 
+                 weekstart = 0, language = "en", width = NULL),
   selectInput(inputId = "customer_priority", label = "Customer Priority", choices = c("First", "Second", "Third"), selected = NULL, multiple = FALSE,
               selectize = TRUE, width = NULL, size = NULL)
 )
 
 # Body
 body <- dashboardBody(
+  fluidRow(
+    valueBoxOutput("dateEstLower"),
+    valueBoxOutput("dateEst"),
+    valueBoxOutput("dateEstUpper")
+  ),
   fluidRow(
     column(width=9,
            box(width=NULL,title = "Order Calendar", status = "primary", htmlOutput("calendar"))
