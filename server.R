@@ -28,7 +28,7 @@ server <- function(input, output, session) {
   })
   
   observeEvent(input$predict, {
-    predDate(input$order_date)
+    predDate(input$order_date + floor(runif(1,30,90)))
     CIbound(floor(runif(1,3,10)))
   })
   
