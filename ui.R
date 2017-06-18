@@ -39,13 +39,13 @@ sidebar <- dashboardSidebar(
   numericInput("quantity_ordered", 
                label = "Quantity Ordered:", 
                value = 10),
-  sliderInput(inputId = "CI", "Confidence Interval (%):", 1, 100, 80),
+  sliderInput(inputId = "CI", "Confidence Interval (%):", 1, 100, 95),
   selectizeInput(inputId = "part_id", label = "Part ID:", choices = unique(df.data$norm_descr), selected = FALSE, multiple = TRUE),
   selectInput(inputId = "customer_priority", label = "Customer Priority", choices = c("First", "Second", "Third"), selected = NULL, multiple = FALSE,
               selectize = TRUE, width = NULL, size = NULL),
   fluidRow(
-    column(5,actionButton("reset", label = "Reset"),offset=1),
-    column(5,submitButton("Predict"))
+    column(5,actionButton("reset", label = "Reset")),
+    column(5,actionButton("predict", label="Predict"))
   )
 )
 
