@@ -21,9 +21,19 @@ server <- function(input, output, session) {
       width='automatic',
       length='automatic',
       calendar="{yearLabel: { fontName: 'Times-Roman',
-                               fontSize: 32, color: 'black', bold: true},
-                               cellSize: 24,
-                               focusedCellColor: {stroke:'red'}}"))
+                              fontSize: 32, color: 'black', bold: true},
+                 cellSize: 24,
+                 focusedCellColor: {stroke:'red'},
+                 cellColor: {stroke: '#76a7fa',
+                             strokeOpacity: 0.5,
+                             strokeWidth: 1,}
+                 }",
+      noDataPattern= "{
+        backgroundColor: '#EBE9E5',
+        color: '#EBE9E5'
+      }"
+      
+      ))
     return(gcal)
   })
   
@@ -43,21 +53,21 @@ server <- function(input, output, session) {
   
   output$dateEst <- renderValueBox({
     valueBox(
-      paste0(predDate()), "Estimated Delivery Date"
+      paste0(predDate()), "Mean Estimated Delivery Date"
     )
   })
   
   output$dateEstLower <- renderValueBox({
     valueBox(
       paste0(predDate()-CIbound()), 
-      "Estimated Delivery Date CI Lower Bound"
+      "Earliest Estimated Delivery Date"
     )
   })
   
   output$dateEstUpper <- renderValueBox({
     valueBox(
       paste0(predDate()+CIbound()), 
-      "Estimated Delivery Date CI Upper Bound"
+      "Latest Estimated Delivery Date"
     )
   })
 }
