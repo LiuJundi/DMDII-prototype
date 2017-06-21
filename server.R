@@ -22,7 +22,7 @@ server <- function(input, output, session) {
       length='automatic',
       calendar="{yearLabel: { fontName: 'Times-Roman',
                                fontSize: 32, color: 'black', bold: true},
-                               cellSize: 28,
+                               cellSize: 24,
                                focusedCellColor: {stroke:'red'}}"))
     return(gcal)
   })
@@ -30,6 +30,15 @@ server <- function(input, output, session) {
   observeEvent(input$predict, {
     predDate(input$order_date + floor(runif(1,30,90)))
     CIbound(floor(runif(1,3,10)))
+  })
+  
+  observe({
+    input$reset
+    updateNumericInput(session, "quantity_ordered", value = 10)
+    updateSelectizeInput(session, "part_id", selected = "136-2928")
+    updateSliderInput(session, "CI", value = 95)
+    updateSelectInput(session, "customer_priority", selected = "High")
+    updateDateInput(session, "order_date", value = Sys.Date())
   })
   
   output$dateEst <- renderValueBox({

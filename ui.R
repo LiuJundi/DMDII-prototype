@@ -31,7 +31,7 @@ sidebar <- dashboardSidebar(
     sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
                       label = "Search...")
   ),
-  selectizeInput(inputId = "part_id", label = "Part ID:", choices = unique(df.data$item_id), selected = FALSE, multiple = FALSE),
+  selectizeInput(inputId = "part_id", label = "Part ID:", choices = unique(df.data$item_id), selected = "136-2928", multiple = FALSE),
   dateInput(inputId = "order_date", label = "Order Date", 
                  min = NULL,max = NULL, format = "mm-dd-yyyy", startview = "month", 
                  weekstart = 0, language = "en", width = NULL),
@@ -39,7 +39,7 @@ sidebar <- dashboardSidebar(
                label = "Quantity Ordered:", 
                value = 10),
   sliderInput(inputId = "CI", "Confidence Interval (%):", 1, 100, 95),
-  selectInput(inputId = "customer_priority", label = "Customer Priority", choices = c("First", "Second", "Third"), selected = NULL, multiple = FALSE,
+  selectInput(inputId = "customer_priority", label = "Customer Priority", choices = c("High", "Medium", "Low"), selected = "High", multiple = FALSE,
               selectize = TRUE, width = NULL, size = NULL),
   fluidRow(
     column(5,actionButton("reset", label = "Reset")),
